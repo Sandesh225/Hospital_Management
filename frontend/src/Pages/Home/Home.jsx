@@ -1,9 +1,9 @@
 import React from "react";
 
-import Biography from "./../../components/Navbar/Biography/Biography";
+import Hero from "./../../components/Hero/Hero";
+import Biography from "./../../components/Biography/Biography";
 import Departments from "./../../components/Departments/Departments";
 import MessageForm from "./../../components/MessageForm/MessageForm";
-import Hero from "./../../Hero/Hero";
 
 const Home = () => {
   return (
