@@ -16,6 +16,9 @@ dotenv.config();
 console.log("MONGO_DB:", process.env.MONGO_DB);
 console.log("PORT:", process.env.PORT);
 
+
+
+
 app.use(cors({
   origin: process.env.FRONTEND_URL,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],

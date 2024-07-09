@@ -3,7 +3,6 @@ import { catchAsyncErrors } from './catchAsyncErrors.js';
 import  jwt  from 'jsonwebtoken';
 import ErrorHandler from './errors.js';
 
-
 export const isAdminAuthenticated = catchAsyncErrors(
   async (req, res, next) => {
     const token = req.cookies.adminToken;

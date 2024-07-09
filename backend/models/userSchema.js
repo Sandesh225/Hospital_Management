@@ -60,6 +60,10 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+
+//This is a Mongoose pre-save middleware that runs before a user document is saved to the database.
+
+
 userSchema.pre("save",async function(next){
   if (!this.isModified("password")){
     next();
@@ -67,6 +71,12 @@ userSchema.pre("save",async function(next){
   }
   this.password=await bcrypt.hash(this.password,10)
 });
+
+
+
+//Adds an instance method to the User schema to compare an entered password with the hashed password stored in the database.
+
+
 userSchema.methods.comparePassword=async function(enteredPassword){
   return await bcrypt.compare(enteredPassword,this.password)
  
