@@ -35,60 +35,51 @@ const MessageForm = () => {
   };
 
   return (
-    <div className="max-w-screen-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-3xl font-bold text-center text-gray-900 mb-6">
-        Send Us A Message
-      </h2>
-      <form onSubmit={handleMessage}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <input
-            type="text"
-            placeholder="First Name"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
+    <>
+      <div className="container form-component message-form">
+        <h2>Send Us A Message</h2>
+        <form onSubmit={handleMessage}>
+          <div>
+            <input
+              type="text"
+              placeholder="First Name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Last Name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </div>
+          <div>
+            <input
+              type="text"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="number"
+              placeholder="Mobile Number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </div>
+          <textarea
+            rows={7}
+            placeholder="Message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
           />
-          <input
-            type="text"
-            placeholder="Last Name"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <input
-            type="text"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-          <input
-            type="number"
-            placeholder="Mobile Number"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-        <textarea
-          rows={7}
-          placeholder="Message"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded mb-4"
-        />
-        <div className="flex justify-center">
-          <button
-            type="submit"
-            className="px-4 py-2 bg-blue-600 text-white font-bold rounded hover:bg-blue-700"
-          >
-            Send
-          </button>
-        </div>
-      </form>
-    </div>
+          <div style={{ justifyContent: "center", alignItems: "center" }}>
+            <button type="submit">Send</button>
+          </div>
+        </form>
+        <img src="/Vector.png" alt="vector" />
+      </div>
+    </>
   );
 };
 

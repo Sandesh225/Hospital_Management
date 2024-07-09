@@ -11,5 +11,5 @@ router.get("/doctors",getAllDoctors)
 router.get("/admin/me", isAdminAuthenticated,getUserDetails)
 router.get("/patient/me", isPatientAuthenticated,getUserDetails)
 router.get("/patient/logout", isPatientAuthenticated, logoutPatient);
-router.get("/admin/logout", isAdminAuthenticated, logoutAdmin);router.get("/dcotor/addNew",isAdminAuthenticated, addNewDoctor)
+router.get("/admin/logout", isAdminAuthenticated, logoutAdmin);router.get("/doctor/addNew",isAdminAuthenticated, addNewDoctor)
 export default router;

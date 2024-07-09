@@ -66,37 +66,29 @@ const Departments = () => {
   };
 
   return (
-    <div className="max-w-screen-2xl mx-auto mt-10 px-4 md:px-20">
-      <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
-        Departments
-      </h2>
-      <Carousel
-        responsive={responsive}
-        removeArrowOnDeviceType={["tablet", "mobile"]}
-        infinite
-        autoPlay
-        autoPlaySpeed={3000}
-      >
-        {departmentsArray.map((depart, index) => {
-          return (
-            <div key={index} className="p-4">
-              <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-                <img
-                  src={depart.imageUrl}
-                  alt={depart.name}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="text-lg font-bold text-gray-800">
-                    {depart.name}
-                  </h3>
-                </div>
+    <>
+      <div className="container departments">
+        <h2>Departments</h2>
+        <Carousel
+          responsive={responsive}
+          removeArrowOnDeviceType={[
+            // "superLargeDesktop",
+            // "desktop",
+            "tablet",
+            "mobile",
+          ]}
+        >
+          {departmentsArray.map((depart, index) => {
+            return (
+              <div key={index} className="card">
+                <div className="depart-name">{depart.name}</div>
+                <img src={depart.imageUrl} alt="Department" />
               </div>
-            </div>
-          );
-        })}
-      </Carousel>
-    </div>
+            );
+          })}
+        </Carousel>
+      </div>
+    </>
   );
 };
 
