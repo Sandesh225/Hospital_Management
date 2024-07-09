@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar/Navbar.jsx";
 import AboutUs from "./Pages/AboutUs/AboutUs";
 import Register from "./Pages/Register/Register";
 import Appointment from "./Pages/Appointment/Appoinment.jsx";
+
 const App = () => {
   return (
     <Router>

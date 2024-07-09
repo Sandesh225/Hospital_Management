@@ -52,9 +52,9 @@ const Navbar = () => {
               LOGOUT
             </button>
           ) : (
-            <button className="loginBtn btn" onClick={goToLogin}>
+            <Link to={"/login"} className="loginBtn btn">
               LOGIN
-            </button>
+            </Link>
           )}
         </div>
         <div className="hamburger" onClick={() => setShow(!show)}>
