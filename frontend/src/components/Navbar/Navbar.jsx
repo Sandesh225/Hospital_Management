@@ -11,7 +11,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     await axios
-      .get("http://localhost:3000/patient/logout", {
+      .get("http://localhost:3000/api/v1/user/patient/logout", {
         withCredentials: true,
       })
       .then((res) => {
@@ -52,9 +52,9 @@ const Navbar = () => {
               LOGOUT
             </button>
           ) : (
-            <Link to={"/login"} className="loginBtn btn">
+            <button className="loginBtn btn" onClick={goToLogin}>
               LOGIN
-            </Link>
+            </button>
           )}
         </div>
         <div className="hamburger" onClick={() => setShow(!show)}>

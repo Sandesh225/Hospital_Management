@@ -1,5 +1,6 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
 const AppointmentForm = () => {
@@ -27,23 +28,20 @@ const AppointmentForm = () => {
     "Physical Therapy",
     "Dermatology",
     "ENT",
-  ]
-  const [doctors, setDoctors] = useState([]);
+  ];
 
+  const [doctors, setDoctors] = useState([]);
   useEffect(() => {
     const fetchDoctors = async () => {
-      try {
-        const { data } = await axios.get("http://localhost:3000/user/doctors", {
-          withCredentials: true,
-        });
-        setDoctors(data.doctors);
-      } catch (error) {
-        console.error("Error fetching doctors:", error);
-      }
+      const { data } = await axios.get(
+        "http://localhost:3000/api/v1/user/doctors",
+        { withCredentials: true }
+      );
+      setDoctors(data.doctors);
+      console.log(data.doctors);
     };
     fetchDoctors();
   }, []);
-
   const handleAppointment = async (e) => {
     e.preventDefault();
     try {
@@ -71,25 +69,22 @@ const AppointmentForm = () => {
         }
       );
       toast.success(data.message);
-      resetFormFields();
+      setFirstName(""),
+        setLastName(""),
+        setEmail(""),
+        setPhone(""),
+        setNic(""),
+        setDob(""),
+        setGender(""),
+        setAppointmentDate(""),
+        setDepartment(""),
+        setDoctorFirstName(""),
+        setDoctorLastName(""),
+        setHasVisited(""),
+        setAddress("");
     } catch (error) {
       toast.error(error.response.data.message);
     }
-  };
-
-  const resetFormFields = () => {
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setPhone("");
-    setNic("");
-    setDob("");
-    setGender("");
-    setAppointmentDate("");
-    setDoctorFirstName("");
-    setDoctorLastName("");
-    setHasVisited(false);
-    setAddress("");
   };
 
   return (
@@ -161,11 +156,13 @@ const AppointmentForm = () => {
                 setDoctorLastName("");
               }}
             >
-              {departmentsArray.map((depart, index) => (
-                <option key={index} value={depart}>
-                  {depart}
-                </option>
-              ))}
+              {departmentsArray.map((depart, index) => {
+                return (
+                  <option value={depart} key={index}>
+                    {depart}
+                  </option>
+                );
+              })}
             </select>
             <select
               value={`${doctorFirstName} ${doctorLastName}`}
@@ -181,8 +178,8 @@ const AppointmentForm = () => {
                 .filter((doctor) => doctor.doctorDepartment === department)
                 .map((doctor, index) => (
                   <option
-                    key={index}
                     value={`${doctor.firstName} ${doctor.lastName}`}
+                    key={index}
                   >
                     {doctor.firstName} {doctor.lastName}
                   </option>
@@ -190,22 +187,27 @@ const AppointmentForm = () => {
             </select>
           </div>
           <textarea
-            rows="5"
+            rows="10"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             placeholder="Address"
           />
-          <div>
-            <label>
-              Have you visited before?
-              <input
-                type="checkbox"
-                checked={hasVisited}
-                onChange={(e) => setHasVisited(e.target.checked)}
-              />
-            </label>
+          <div
+            style={{
+              gap: "10px",
+              justifyContent: "flex-end",
+              flexDirection: "row",
+            }}
+          >
+            <p style={{ marginBottom: 0 }}>Have you visited before?</p>
+            <input
+              type="checkbox"
+              checked={hasVisited}
+              onChange={(e) => setHasVisited(e.target.checked)}
+              style={{ flex: "none", width: "25px" }}
+            />
           </div>
-          <button type="submit">GET APPOINTMENT</button>
+          <button style={{ margin: "0 auto" }}>GET APPOINTMENT</button>
         </form>
       </div>
     </>

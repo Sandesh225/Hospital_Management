@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { Context } from "./../../main";
-import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
+
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Context } from "./../../main";
 
 const Register = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(Context);
@@ -23,7 +24,7 @@ const Register = () => {
     try {
       await axios
         .post(
-          "http://localhost:3000/user/patient/register",
+          "http://localhost:3000/api/v1/user/patient/register",
           { firstName, lastName, email, phone, nic, dob, gender, password },
           {
             withCredentials: true,
@@ -33,7 +34,7 @@ const Register = () => {
         .then((res) => {
           toast.success(res.data.message);
           setIsAuthenticated(true);
-          navigateTo("/");
+          navigateTo("/login");
           setFirstName("");
           setLastName("");
           setEmail("");
@@ -49,7 +50,7 @@ const Register = () => {
   };
 
   if (isAuthenticated) {
-    return <Navigate to={"/"} />;
+    return <Navigate to={"/login"} />;
   }
 
   return (
@@ -126,7 +127,7 @@ const Register = () => {
           >
             <p style={{ marginBottom: 0 }}>Already Registered?</p>
             <Link
-              to={"/signin"}
+              to={"/login"}
               style={{ textDecoration: "none", color: "#271776ca" }}
             >
               Login Now

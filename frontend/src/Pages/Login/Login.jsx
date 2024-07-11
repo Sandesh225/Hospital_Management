@@ -1,27 +1,26 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { Context } from "./../../main";
-import React, { useContext, useState } from "react";
 import axios from "axios";
+import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
+
+import { Link, useNavigate, Navigate } from "react-router-dom";
+import { Context } from "./../../main";
 
 const Login = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(Context);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
   const navigateTo = useNavigate();
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       await axios
         .post(
-          "http://localhost:3000/user/login",
-          {
-            email,
-            password,
-            confirmPassword,
-            role: "Patient",
-          },
+          "http://localhost:3000/api/v1/user/login",
+          { email, password, confirmPassword, role: "Patient" },
           {
             withCredentials: true,
             headers: { "Content-Type": "application/json" },
@@ -39,9 +38,11 @@ const Login = () => {
       toast.error(error.response.data.message);
     }
   };
+
   if (isAuthenticated) {
     return <Navigate to={"/"} />;
   }
+
   return (
     <>
       <div className="container form-component login-form">

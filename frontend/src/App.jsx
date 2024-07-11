@@ -14,11 +14,12 @@ import axios from "axios";
 
 const App = () => {
   const { isAuthenticated, setIsAuthenticated, setUser } = useContext(Context);
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/user/patient/me",
+          "http://localhost:3000/api/v1/user/patient/me",
           {
             withCredentials: true,
           }
@@ -32,19 +33,22 @@ const App = () => {
     };
     fetchUser();
   }, [isAuthenticated]);
+
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/appointment" element={<Appointment />} />
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
-      <Footer />
-      <ToastContainer position="top-center" />
-    </Router>
+    <>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/appointment" element={<Appointment />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+        <Footer />
+        <ToastContainer position="top-center" />
+      </Router>
+    </>
   );
 };
 
