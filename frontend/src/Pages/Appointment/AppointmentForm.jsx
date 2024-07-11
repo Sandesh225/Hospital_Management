@@ -1,6 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const AppointmentForm = () => {
@@ -17,6 +16,7 @@ const AppointmentForm = () => {
   const [doctorLastName, setDoctorLastName] = useState("");
   const [address, setAddress] = useState("");
   const [hasVisited, setHasVisited] = useState(false);
+
   const departmentsArray = [
     "Pediatrics",
     "Orthopedics",
@@ -27,16 +27,19 @@ const AppointmentForm = () => {
     "Physical Therapy",
     "Dermatology",
     "ENT",
-  ];
+  ]
   const [doctors, setDoctors] = useState([]);
 
   useEffect(() => {
     const fetchDoctors = async () => {
-      const { data } = await axios.get("http://localhost:3000/user/doctors", {
-        withCredentials: true,
-      });
-      setDoctors(data.doctors);
-      console.log(data.doctors);
+      try {
+        const { data } = await axios.get("http://localhost:3000/user/doctors", {
+          withCredentials: true,
+        });
+        setDoctors(data.doctors);
+      } catch (error) {
+        console.error("Error fetching doctors:", error);
+      }
     };
     fetchDoctors();
   }, []);
@@ -68,22 +71,25 @@ const AppointmentForm = () => {
         }
       );
       toast.success(data.message);
-      setFirstName(""),
-        setLastName(""),
-        setEmail(""),
-        setPhone(""),
-        setNic(""),
-        setDob(""),
-        setGender(""),
-        setAppointmentDate(""),
-        setDepartment(""),
-        setDoctorFirstName(""),
-        setDoctorLastName(""),
-        setHasVisited(""),
-        setAddress("");
+      resetFormFields();
     } catch (error) {
       toast.error(error.response.data.message);
     }
+  };
+
+  const resetFormFields = () => {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPhone("");
+    setNic("");
+    setDob("");
+    setGender("");
+    setAppointmentDate("");
+    setDoctorFirstName("");
+    setDoctorLastName("");
+    setHasVisited(false);
+    setAddress("");
   };
 
   return (
@@ -155,13 +161,11 @@ const AppointmentForm = () => {
                 setDoctorLastName("");
               }}
             >
-              {departmentsArray.map((depart, index) => {
-                return (
-                  <option value={depart} key={index}>
-                    {depart}
-                  </option>
-                );
-              })}
+              {departmentsArray.map((depart, index) => (
+                <option key={index} value={depart}>
+                  {depart}
+                </option>
+              ))}
             </select>
             <select
               value={`${doctorFirstName} ${doctorLastName}`}
@@ -177,8 +181,8 @@ const AppointmentForm = () => {
                 .filter((doctor) => doctor.doctorDepartment === department)
                 .map((doctor, index) => (
                   <option
-                    value={`${doctor.firstName} ${doctor.lastName}`}
                     key={index}
+                    value={`${doctor.firstName} ${doctor.lastName}`}
                   >
                     {doctor.firstName} {doctor.lastName}
                   </option>
@@ -186,27 +190,22 @@ const AppointmentForm = () => {
             </select>
           </div>
           <textarea
-            rows="10"
+            rows="5"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             placeholder="Address"
           />
-          <div
-            style={{
-              gap: "10px",
-              justifyContent: "flex-end",
-              flexDirection: "row",
-            }}
-          >
-            <p style={{ marginBottom: 0 }}>Have you visited before?</p>
-            <input
-              type="checkbox"
-              checked={hasVisited}
-              onChange={(e) => setHasVisited(e.target.checked)}
-              style={{ flex: "none", width: "25px" }}
-            />
+          <div>
+            <label>
+              Have you visited before?
+              <input
+                type="checkbox"
+                checked={hasVisited}
+                onChange={(e) => setHasVisited(e.target.checked)}
+              />
+            </label>
           </div>
-          <button style={{ margin: "0 auto" }}>GET APPOINTMENT</button>
+          <button type="submit">GET APPOINTMENT</button>
         </form>
       </div>
     </>

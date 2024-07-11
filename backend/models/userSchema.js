@@ -28,8 +28,8 @@ const userSchema = new mongoose.Schema({
   nic: {
     type: String,
     required: [true, "NIC Is Required!"],
-    minLength: [13, "NIC Must Contain Only 13 Digits!"],
-    maxLength: [13, "NIC Must Contain Only 13 Digits!"],
+    minLength: [6, "NIC Must Contain atleast 6Digits!"],
+    maxLength: [13, "NIC Must Contain maximun 13 Digits!"],
   },
   dob: {
     type: Date,
@@ -51,7 +51,7 @@ const userSchema = new mongoose.Schema({
     required: [true, "User Role Required!"],
     enum: ["Patient", "Doctor", "Admin"],
   },
-  doctorDepartment:{
+  doctorDepartment: {
     type: String,
   },
   docAvatar: {
@@ -60,32 +60,20 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-
-//This is a Mongoose pre-save middleware that runs before a user document is saved to the database.
-
-
-userSchema.pre("save",async function(next){
-  if (!this.isModified("password")){
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
     next();
-   
   }
-  this.password=await bcrypt.hash(this.password,10)
+  this.password = await bcrypt.hash(this.password, 10);
 });
 
-
-
-//Adds an instance method to the User schema to compare an entered password with the hashed password stored in the database.
-
-
-userSchema.methods.comparePassword=async function(enteredPassword){
-  return await bcrypt.compare(enteredPassword,this.password)
- 
-}
-
+userSchema.methods.comparePassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
 
 userSchema.methods.generateJsonWebToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: process.env.JWT_EXPIRE,
+    expiresIn: process.env.JWT_EXPIRES,
   });
 };
 

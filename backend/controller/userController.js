@@ -2,11 +2,9 @@
 import { catchAsyncErrors } from './../middlewares/catchAsyncErrors.js';
 import ErrorHandler from "../middlewares/errors.js"
 import { User } from './../models/userSchema.js';
-import { generateToken } from '../utils/jwToken.js';
+import { generateToken } from '../utils/jwtToken.js';
 
-
-
-
+import  cloudinary  from 'cloudinary';
 
 
 export const patientRegister = catchAsyncErrors(async (req, res, next) => {
@@ -68,6 +66,8 @@ export const login = catchAsyncErrors(async (req, res, next) => {
   }
   generateToken(user, "Login Successfully!", 201, res);
 });
+
+
 
 export const addNewAdmin = catchAsyncErrors(async (req, res, next) => {
   const { firstName, lastName, email, phone, nic, dob, gender, password } =

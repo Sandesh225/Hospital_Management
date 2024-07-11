@@ -1,10 +1,8 @@
-import express from "express";
-import { sendMessage } from '../controller/messageController.js';
-import { isAdminAuthenticated } from "../middlewares/auth.js";
-import { getAllMessages } from './../controller/messageController.js';
+import express from 'express';
+import { getAllMessage, sendMessage } from '../controller/messageController.js';
 
 const router = express.Router();
 router.post("/send", sendMessage);
-router.get("/getAll",isAdminAuthenticated,getAllMessages)
+router.get("/getall", getAllMessage); // Added leading slash
 
 export default router;

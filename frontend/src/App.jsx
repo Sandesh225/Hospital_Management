@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home/Home.jsx";
 import { ToastContainer } from "react-toastify";
@@ -9,8 +9,29 @@ import Navbar from "./components/Navbar/Navbar.jsx";
 import AboutUs from "./Pages/AboutUs/AboutUs";
 import Register from "./Pages/Register/Register";
 import Appointment from "./Pages/Appointment/Appoinment.jsx";
+import { Context } from "./main";
+import axios from "axios";
 
 const App = () => {
+  const { isAuthenticated, setIsAuthenticated, setUser } = useContext(Context);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/user/patient/me",
+          {
+            withCredentials: true,
+          }
+        );
+        setIsAuthenticated(true);
+        setUser(response.data.user);
+      } catch (error) {
+        setIsAuthenticated(false);
+        setUser({});
+      }
+    };
+    fetchUser();
+  }, [isAuthenticated]);
   return (
     <Router>
       <Navbar />
