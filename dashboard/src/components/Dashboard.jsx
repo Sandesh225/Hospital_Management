@@ -8,20 +8,39 @@ import { AiFillCloseCircle } from "react-icons/ai";
 
 const Dashboard = () => {
   const [appointments, setAppointments] = useState([]);
-
+  const [doctors, setDoctors] = useState([]);
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
         const { data } = await axios.get(
           "http://localhost:3000/api/v1/appointment/getall",
-          { withCredentials: true }
+          {
+            withCredentials: true,
+          }
         );
         setAppointments(data.appointments);
       } catch (error) {
         setAppointments([]);
+        toast.error("Failed to fetch appointments.");
+      }
+    };
+
+    const fetchDoctors = async () => {
+      try {
+        const { data } = await axios.get(
+          "http://localhost:3000/api/v1/user/doctors",
+          {
+            withCredentials: true,
+          }
+        );
+        setDoctors(data.doctors);
+      } catch (error) {
+        setDoctors([]);
+        toast.error("Failed to fetch doctors.");
       }
     };
     fetchAppointments();
+    fetchDoctors();
   }, []);
 
   const handleUpdateStatus = async (appointmentId, status) => {
@@ -61,19 +80,18 @@ const Dashboard = () => {
                 <h5>{admin && `${admin.firstName} ${admin.lastName}`} </h5>
               </div>
               <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Facilis, nam molestias. Eaque molestiae ipsam commodi neque.
-                Assumenda repellendus necessitatibus itaque.
+                Welcome, Administrator. Our dashboard streamlines hospital
+                operations, enhancing patient care.
               </p>
             </div>
           </div>
           <div className="secondBox">
             <p>Total Appointments</p>
-            <h3>1500</h3>
+            <h3>{appointments && `${appointments.length}`}</h3>
           </div>
           <div className="thirdBox">
             <p>Registered Doctors</p>
-            <h3>10</h3>
+            <h3>{doctors && `${doctors.length}`}</h3>
           </div>
         </div>
         <div className="banner">
